@@ -8,21 +8,28 @@ namespace dotnet_asp_API.Controllers
 {
     //defining a rout template common to the whole controller
     [Route("api/cities")]
-    public class CitiesController
+    public class CitiesController : Controller
     {
         //Routing template
         [HttpGet()]
         //return a json list of cities
-        public JsonResult GetCities()
+        public IActionResult GetCities()//IActionResult provides response codes implementation
         {
-            return new JsonResult(CitiesDataStore.Current.Cities);
+            return new OkResult();
         }
 
         [HttpGet("{id}")]//if parameter here, add it to the acction function
         //return a json list of cities
-        public JsonResult GetCity(int id)//same parameter from route
+        public IActionResult GetCity(int id)//same parameter from route
         {
-            return new JsonResult(CitiesDataStore.Current.Cities.FirstOrDefault(city => city.Id == id));
+            //Find a city
+            var cityToreturn = CitiesDataStore.Current.Cities.FirstOrDefault(city => city.Id == id);
+            if (cityToreturn == null)
+            {
+                return new NotFoundResult();
+            }
+            //Alternativelly return new OkResult to send a empty response body with 200 header
+            return new OkObjectResult(cityToreturn);
         }
     }
 }
