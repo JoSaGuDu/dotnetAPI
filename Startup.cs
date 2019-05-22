@@ -52,6 +52,8 @@ namespace dotnet_asp_API
             //app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            //support status code display on http response otional
+            app.UseStatusCodePages();
 
             app.UseMvc();//Now we can handle HTTP requests
         }
