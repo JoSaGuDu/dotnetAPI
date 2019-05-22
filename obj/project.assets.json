@@ -12092,23 +12092,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\JSGD\\.nuget\\packages\\": {},
+    "C:\\Users\\RE-AK-PC1\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\JSGD\\Documents\\dotnetAPI\\dotnet_asp_API.csproj",
+      "projectUniqueName": "C:\\Users\\RE-AK-PC1\\Documents\\sandbox\\dotnet_asp_API\\dotnet_asp_API.csproj",
       "projectName": "dotnet_asp_API",
-      "projectPath": "c:\\Users\\JSGD\\Documents\\dotnetAPI\\dotnet_asp_API.csproj",
-      "packagesPath": "C:\\Users\\JSGD\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\JSGD\\Documents\\dotnetAPI\\obj\\",
+      "projectPath": "C:\\Users\\RE-AK-PC1\\Documents\\sandbox\\dotnet_asp_API\\dotnet_asp_API.csproj",
+      "packagesPath": "C:\\Users\\RE-AK-PC1\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\RE-AK-PC1\\Documents\\sandbox\\dotnet_asp_API\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\JSGD\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\RE-AK-PC1\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
