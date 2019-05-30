@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using System.Web.Http;
+using System.Net.Http;
 
 namespace dotnet_asp_API.Controllers
 {
@@ -10,7 +12,7 @@ namespace dotnet_asp_API.Controllers
     [Route("api/cities")]
     public class PointsOfInterestController : Controller
     {
-        //Routing template
+        //Routing template. Routes must reflect parent child relationships of data.
         [HttpGet("{cityId}/pointsOfInterest")]//if parameter here, add it to the acction function
         //return a json list of cities
         public IActionResult GetPointsOfIterest(int cityId)//IActionResult provides response codes implementation
@@ -19,7 +21,7 @@ namespace dotnet_asp_API.Controllers
             var cityOfPoints = CitiesDataStore.Current.Cities.FirstOrDefault(city => city.Id == cityId);
             if (cityOfPoints == null)
             {
-                return new NotFoundResult();
+                return new BadRequestObjectResult(ModelState);
             }
             //Alternativelly return new OkResult to send a empty response body with 200 header
             return new OkObjectResult(cityOfPoints.PointsOfInterest);
@@ -27,7 +29,7 @@ namespace dotnet_asp_API.Controllers
 
         [HttpGet("{cityId}/pointOfInterest/{pointId}", Name = "GetPointOfInterest")]//Add a name to reference in other parts of the class
         //return a json list of cities
-        public IActionResult GetAPointOFInterest(int cityId, int pointId)//same parameter from route
+        public IActionResult GetAPointOFInterest(int cityId, int pointId)//same parameters from route
         {
             //Find the city
             var cityOfPoints = CitiesDataStore.Current.Cities.FirstOrDefault(city => city.Id == cityId);
@@ -52,12 +54,24 @@ namespace dotnet_asp_API.Controllers
         [HttpPost("{cityId}/addPointOfInterest")]
         public IActionResult CreatePointOfInterest(int cityId, [FromBody] PointsOfInterestDtoResourceGeneration pointOfInterestPosted)
         {
-            //input data validation
+            //input data validation. Proper input validation should be done via Data anotations in the entety used for generate resurces; PointsOfInterestDtoResourceGeneration. This is the basic but not the best because doesn't respect separation of concerns by defining validation in controller and model.
             if (pointOfInterestPosted == null)
             {
                 return new BadRequestResult();
             }
 
+            //Using ModelsState is a dictionary that checks DataAnnotations on DTOs adherence and contains error mesages if failed.
+            if (!ModelState.IsValid)
+            {
+                return new BadRequestObjectResult(ModelState);//returns the ModelState thar will display errors when user inpunt doesn't comply data anottations
+            }
+
+            //Custom input validation using ModelState
+            if (pointOfInterestPosted.Description == pointOfInterestPosted.Name)
+            {
+                ModelState.AddModelError("CustomErrorKey", "CustomError message: The provided description should be different from the name");
+                return new BadRequestObjectResult(ModelState);//returns the ModelState thar will display errors when user inpunt doesn't comply data anottations
+            }
 
             var cityOfPoints = CitiesDataStore.Current.Cities.FirstOrDefault(city => city.Id == cityId);
             if (cityOfPoints == null)

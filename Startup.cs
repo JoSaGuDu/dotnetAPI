@@ -1,3 +1,4 @@
+//Container of the app. Responsible of configuration and Dependency injection(Pattern) which uses an object (container) to initialize objects and provide required dependenciesis toh the objects. You register services in this container and the container is responsible of provid instances of these services to objects that demands them. Dependency Injection is a specialization of the Inversion of control which consist on delegation the the selection of a concrete implementation type for any dependency of a class.
 using System;
 using System.Collections.Generic;
 using System.Linq;

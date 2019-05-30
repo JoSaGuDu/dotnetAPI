@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace dotnet_asp_API.Controllers
 {
-    //defining a rout template common to the whole controller
+    //defining a rout template common to the whole controller. Routes must reflect parent child relationships of data.
     [Route("api/cities")]
     public class CitiesController : Controller
     {
