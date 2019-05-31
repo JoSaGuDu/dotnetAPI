@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using System.Web.Http;
 using System.Net.Http;
+using Microsoft.Extensions.Logging;
 
 namespace dotnet_asp_API.Controllers
 {
@@ -12,6 +13,12 @@ namespace dotnet_asp_API.Controllers
     [Route("api/cities")]
     public class PointsOfInterestController : Controller
     {
+        //I need to log in the console
+        //So I demand an instance of the required service factory
+        private ILogger<PointsOfInterestController> _logger;//ILogger(I for Interface) instance provide by the container usin the T  technique: use the type of the category name: nameSpace<categoryName> _nameOfInstance
+
+        //Now, I  
+
         //Routing template. Routes must reflect parent child relationships of data.
         [HttpGet("{cityId}/pointsOfInterest")]//if parameter here, add it to the acction function
         //return a json list of cities
