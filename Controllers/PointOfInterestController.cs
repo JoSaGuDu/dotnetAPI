@@ -21,7 +21,7 @@ namespace dotnet_asp_API.Controllers
 
         //Routing template. Routes must reflect parent child relationships of data.
         [HttpGet("{cityId}/pointsOfInterest")]//if parameter here, add it to the acction function
-        //return a json list of cities
+        //Action: return a json list of cities
         public IActionResult GetPointsOfIterest(int cityId)//IActionResult provides response codes implementation
         {
             //Find the city
@@ -35,7 +35,7 @@ namespace dotnet_asp_API.Controllers
         }
 
         [HttpGet("{cityId}/pointOfInterest/{pointId}", Name = "GetPointOfInterest")]//Add a name to reference in other parts of the class
-        //return a json list of cities
+        //Action:return a json list of cities
         public IActionResult GetAPointOFInterest(int cityId, int pointId)//same parameters from route
         {
             //Find the city
@@ -55,13 +55,12 @@ namespace dotnet_asp_API.Controllers
             return new OkObjectResult(pointOfInterest);
         }
 
-        //Generation of resources
-
         //Poitn of interest
         [HttpPost("{cityId}/addPointOfInterest")]
+        //Action:Generation of resources
         public IActionResult CreatePointOfInterest(int cityId, [FromBody] PointsOfInterestDtoResourceGeneration pointOfInterestPosted)
         {
-            //input data validation. Proper input validation should be done via Data anotations in the entety used for generate resurces; PointsOfInterestDtoResourceGeneration. This is the basic but not the best because doesn't respect separation of concerns by defining validation in controller and model.
+            //input data validation. Input validation can be done via Data anotations in the entity used for generate resources; PointsOfInterestDtoResourceGeneration. This is the basic but not the best because doesn't respect separation of concerns by defining validation in controller and model. Check FluentVAlidation on Github to see a robust input validation.
             if (pointOfInterestPosted == null)
             {
                 return new BadRequestResult();
@@ -70,7 +69,7 @@ namespace dotnet_asp_API.Controllers
             //Using ModelsState is a dictionary that checks DataAnnotations on DTOs adherence and contains error mesages if failed.
             if (!ModelState.IsValid)
             {
-                return new BadRequestObjectResult(ModelState);//returns the ModelState thar will display errors when user inpunt doesn't comply data anottations
+                return new BadRequestObjectResult(ModelState);//returns the ModelState that will display errors when user inpunt doesn't comply data anottations
             }
 
             //Custom input validation using ModelState
@@ -110,6 +109,39 @@ namespace dotnet_asp_API.Controllers
             { cityId = cityId, pointId = newPointOfInterest.Id }, newPointOfInterest);
 
 
+        }
+
+        //Full resource update (PUT)
+        [HttpPut("{cityId}/pointsOfInterest/{id}")]
+        //Action:Full update of a point of interest of a city
+        public IActionResult FullUpdatePointOfInterest(int cityId, int pointOfinterestToUpdateId, [FromBody]  PointsOfInterestDtoResourceFullUpdate pointOfInterestUpdate)
+        {
+            //Using ModelsState is a dictionary that checks DataAnnotations on DTOs adherence and contains error mesages if failed.
+            if (!ModelState.IsValid)
+            {
+                return new BadRequestObjectResult(ModelState);//returns the ModelState that will display errors when user inpunt doesn't comply data anottations
+            }
+
+            //Find the city of the point to be updated
+            var cityOfPoints = CitiesDataStore.Current.Cities.FirstOrDefault(city => city.Id == cityId);
+            if (cityOfPoints == null)
+            {
+                return new NotFoundResult();
+            }
+
+            //Find the the point to be updated
+            //find the point of interest 
+            var existentPointOfInterest = cityOfPoints.PointsOfInterest.FirstOrDefault(point => point.Id == pointOfinterestToUpdateId);
+            if (existentPointOfInterest == null)
+            {
+                return new NotFoundResult();
+            }
+
+            //Fully update the point
+            existentPointOfInterest.Name = pointOfInterestUpdate.Name;
+            existentPointOfInterest.Description = pointOfInterestUpdate.Description;
+
+            return NoContent();
         }
     }
 }
